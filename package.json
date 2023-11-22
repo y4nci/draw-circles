@@ -1,7 +1,7 @@
 {
   "name": "circle-drawer-tool",
   "version": "0.0.0",
-  "homepage": "https://y4nci.github.io/drawer-tool",
+  "homepage": "https://y4nci.github.io/draw-circles",
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "3.52.0",
