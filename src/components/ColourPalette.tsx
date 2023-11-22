@@ -14,7 +14,7 @@ export const ColourPalette = (props: { onColourSelect: (colour: Colour) => void 
 
     return (
         <div>
-            <div className="colour-palette">
+            <div className="colour-palette column-flex-center margin20">
                 {allColours.map((row, i) => (
                     <div key={i}>
                         {row.map((col, j) => (

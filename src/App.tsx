@@ -2,27 +2,35 @@ import { Button } from '@blueprintjs/core';
 import React, { useState } from 'react';
 
 import { Canvas } from './components/Canvas';
+import { CirclePropSelector } from './components/CirclePropSelector';
 import { ColourPalette } from './components/ColourPalette';
 import { ImageUpload } from './components/ImageUpload';
+import { getCurrentLineWidth, getCurrentRadius } from './services/circlePropService';
 import { getActiveImageURL } from './services/imageService';
 
 const App = () => {
     const [activeImage, setActiveImage] = useState<string>(getActiveImageURL());
     const [selectedColor, setSelectedColor] = useState<string>('#000000');
+    const [radius, setRadius] = useState(getCurrentRadius()); // Radius of the circle
+    const [lineWidth, setLineWidth] = useState(getCurrentLineWidth()); // Line width of the circle
 
     return (
-        <div className='flex-center'>
+        <div className='App'>
             {activeImage === ''
                 ? <ImageUpload onImageUpload={setActiveImage}/>
                 : <div>
-                    <Canvas selectedColor={selectedColor} imageSrc={activeImage} />
-                    <ColourPalette onColourSelect={setSelectedColor} />
+                    <Canvas selectedColor={selectedColor} imageSrc={activeImage} radius={radius} lineWidth={lineWidth} />
                     <div>
+                        <ColourPalette onColourSelect={setSelectedColor} />
+                        <CirclePropSelector onRadiusSelect={setRadius} onLineWidthSelect={setLineWidth} />
+                    </div>
+                    <div className='margin20 flex-center'>
                         <Button
                             onClick={() => {
                                 setActiveImage('');
                             }}
                             text="Remove the active image"
+                            icon='trash'
                             minimal
                         />
                         <Button
@@ -35,6 +43,7 @@ const App = () => {
                                 link.click();
                             }}
                             text="Download Image"
+                            icon='download'
                             minimal
                         />
                     </div>

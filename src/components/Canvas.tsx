@@ -3,9 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 interface CanvasProps {
     selectedColor: string;
     imageSrc: string | null; // Image source URL
+    radius: number;
+    lineWidth: number;
 }
 
-export const Canvas: React.FC<CanvasProps> = ({ selectedColor, imageSrc }) => {
+export const Canvas: React.FC<CanvasProps> = ({ selectedColor, imageSrc, radius, lineWidth }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isDrawing, setIsDrawing] = useState(false);
 
@@ -17,9 +19,15 @@ export const Canvas: React.FC<CanvasProps> = ({ selectedColor, imageSrc }) => {
             image.src = imageSrc;
 
             image.onload = () => {
-                canvas.width = image.width;
-                canvas.height = image.height;
-                ctx?.drawImage(image, 0, 0);
+                const scale = Math.min(750 / image.width, 750 / image.height);
+                const width = image.width * scale;
+                const height = image.height * scale;
+
+                // Resize the canvas to the scaled dimensions
+                canvas.width = width;
+                canvas.height = height;
+
+                ctx?.drawImage(image, 0, 0, width, height);
             };
         }
     }, [imageSrc]);
@@ -30,10 +38,11 @@ export const Canvas: React.FC<CanvasProps> = ({ selectedColor, imageSrc }) => {
 
         if (ctx) {
             setIsDrawing(true);
+            ctx.strokeStyle = selectedColor; // Use strokeStyle for hollow circle
+            ctx.lineWidth = lineWidth;
             ctx.beginPath();
-            ctx.arc(offsetX, offsetY, 10, 0, Math.PI * 2); // Circle of radius 10
-            ctx.fillStyle = selectedColor;
-            ctx.fill();
+            ctx.arc(offsetX, offsetY, radius, 0, Math.PI * 2); // Circle of radius 10
+            ctx.stroke(); // Draw hollow circle
         }
     };
 
@@ -43,10 +52,11 @@ export const Canvas: React.FC<CanvasProps> = ({ selectedColor, imageSrc }) => {
         const ctx = canvasRef.current?.getContext('2d');
 
         if (ctx) {
+            ctx.strokeStyle = selectedColor;
+            ctx.lineWidth = lineWidth;
             ctx.beginPath();
-            ctx.arc(offsetX, offsetY, 10, 0, Math.PI * 2); // Circle of radius 10
-            ctx.fillStyle = selectedColor;
-            ctx.fill();
+            ctx.arc(offsetX, offsetY, radius, 0, Math.PI * 2);
+            ctx.stroke();
         }
     };
 
@@ -56,6 +66,7 @@ export const Canvas: React.FC<CanvasProps> = ({ selectedColor, imageSrc }) => {
 
     return (
         <canvas
+            style={{ maxWidth: '900px', maxHeight: '900px' }}
             ref={canvasRef}
             onMouseDown={startDrawing}
             onMouseUp={stopDrawing}

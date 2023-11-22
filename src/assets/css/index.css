@@ -1,3 +1,7 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+
 @font-face {
   font-family: "Saira-Regular";   /*Can be any text*/
   src: local("Saira-Regular"),
@@ -61,6 +65,8 @@ a {
 .App {
   justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .cardColorPickerButton{
@@ -73,7 +79,7 @@ a {
 
 .image-upload{
   width: 600px;
-  height: 400px;
+  height: 600px;
   border-radius: 20%;
   object-fit: cover;
   background-color: #ddd;
@@ -83,8 +89,34 @@ a {
   margin: 50px;
 }
 
+.image-upload > p{
+  font-size: xx-large;
+  font-weight: bold;
+  color: #333;
+  margin: 20px;
+  text-align: center;
+}
+
 .flex-center{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.column-flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.margin20{
+  margin: 20px;
+}
+
+.slider-title{
+  font-size: x-large;
+  font-weight: bold;
+  color: #333;
+  width: 200px;
 }
