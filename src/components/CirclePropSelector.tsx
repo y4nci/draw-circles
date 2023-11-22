@@ -24,7 +24,7 @@ export const CirclePropSelector = (props: { onRadiusSelect: (radius: number) => 
             <div className='flex-center'>
                 <p className='slider-title'>Set Circle Radius</p>
                 <Slider
-                    min={1}
+                    min={0}
                     max={100}
                     stepSize={1}
                     labelStepSize={10}
